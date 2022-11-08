@@ -5,7 +5,7 @@
  * @license https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
  */
 
-namespace understeam\slack;
+namespace walkboy\slack;
 
 use Yii;
 use yii\base\Component;
@@ -17,7 +17,7 @@ use yii\helpers\Json;
  * @author Anatoly Rugalev
  * @link https://github.com/AnatolyRugalev
  */
-class Client extends Component
+class Slack extends Component
 {
     /**
      * @var string URL of Slack incoming webhook integration
@@ -68,20 +68,35 @@ class Client extends Component
 
     /**
      * Send a message to slack
-     * @param string $text message text
-     * @param string $emoji emoji icon
-     * @param array $attachments attachments (@see https://api.slack.com/incoming-webhooks)
-     * @param string $channel channel to send to
      */
-    public function send($text = null, $emoji = null, $attachments = [], $channel = null)
+    public function sendRaw($payload)
     {
-        $this->httpclient->post($this->url, [
-            'payload' => Json::encode($this->getPayload($text, $emoji, $attachments, $channel)),
-        ])->send();
+        $request = $this->httpclient->post($this->url, $payload)->setFormat('json');
+        $response = $request->send();
+        if (!$response->isOk) {
+            Yii::error([
+                'info' => 'Slack sending failed',
+                'response' => $response->content,
+            ]);
+        }
     }
 
+    /**
+     * Send a message to slack
+     * @see https://api.slack.com/incoming-webhook
+     * @see https://api.slack.com/reference/block-kit/blocks
+     * @param string $text message text
+     * @param string $emoji emoji icon
+     * @param array $blocks attachments 
+     * @param string $channel channel to send to
+     */
+    public function send($text = null, $emoji = null, $blocks = [], $channel = null)
+    {
+        $payload = $this->getPayload($text, $emoji, $blocks, $channel);
+        $this->sendRaw($payload);
+    }
 
-    protected function getPayload($text = null, $emoji = null, $attachments = [], $channel = null)
+    protected function getPayload($text = null, $emoji = null, $blocks = [], $channel = null)
     {
         if ($text === null) {
             $text = $this->defaultText;
@@ -93,7 +108,7 @@ class Client extends Component
         $payload = [
             'text' => $text,
             'username' => $this->username,
-            'attachments' => $attachments,
+            'blocks' => $blocks,
         ];
         if ($channel !== null) {
             $payload['channel'] = $channel;
@@ -103,5 +118,4 @@ class Client extends Component
         }
         return $payload;
     }
-
 }

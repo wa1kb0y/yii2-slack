@@ -4,7 +4,7 @@
  * @copyright Copyright (c) AnatolyRugalev
  * @license https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
  */
-namespace understeam\slack;
+namespace walkboy\slack;
 
 use Yii;
 use yii\base\InvalidConfigException;
@@ -24,7 +24,7 @@ class LogTarget extends Target
     public $emoji = null;
 
     /**
-     * @var \understeam\slack\Client|string
+     * @var \walkboy\slack\Client|string
      */
     public $slack = 'slack';
 

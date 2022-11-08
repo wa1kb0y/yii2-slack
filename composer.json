@@ -1,11 +1,11 @@
 {
-  "name": "understeam/yii2-slack",
-  "description": "Yii2 slack client based on GuzzleHttp library",
+  "name": "walkboy/yii2-slack",
+  "description": "Yii2 slack client",
   "type": "extension",
   "license": "GPL-v3",
   "support": {
-    "issues": "https://github.com/understeam/yii2-slack/issues",
-    "source": "https://github.com/understeam/yii2-slack"
+    "issues": "https://github.com/walkboy/yii2-slack/issues",
+    "source": "https://github.com/walkboy/yii2-slack"
   },
   "minimum-stability": "dev",
   "require": {
@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "understeam\\slack\\": ""
+      "walkboy\\slack\\": ""
     }
   }
 }

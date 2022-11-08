@@ -4,11 +4,13 @@ Designed to send messages to slack messenger
 
 ![How it looks](http://dn.imagy.me/201602/15/12d7dae10bfb96c159f48901d518e196.png)
 
+Based on unmaintained https://github.com/Understeam/yii2-slack
+
 
 ## Installation
 
 ```bash
-php composer.phar require understeam/yii2-slack:~0.3 --prefer-dist
+php composer require walkboy/yii2-slack:1.0
 ```
 
 Also, you should configure [incoming webhook](https://api.slack.com/incoming-webhooks) inside your Slack team.
@@ -48,7 +50,7 @@ Configure component:
 ...
     'components' => [
         'slack' => [
-            'class' => 'understeam\slack\Client',
+            'class' => 'walkboy\slack\Slack',
             'url' => '<slack incoming webhook url here>',
             'username' => 'My awesome application',
         ],
@@ -60,15 +62,24 @@ Now you can send messages right into slack channel via next command:
 
 ```php
 Yii::$app->slack->send('Hello', ':thumbs_up:', [
+    // block object 1
     [
-        // attachment object
-        'text' => 'text of attachment',
-        'pretext' => 'pretext here',
+        'type' => 'context',
+        'elements' => [
+            [
+                'type' => 'mrkdwn',
+                'text' => 'Your markdown text here',
+            ]
+        ],
     ],
+    // block object 2
+    [
+        'type' => 'divider',
+    ]
 ]);
 ```
 
-To learn more about attachments, [read Slack documentation](https://api.slack.com/incoming-webhooks)
+To learn more about blocks, [read Slack documentation](https://api.slack.com/incoming-webhooks)
 
 Also you can use slack as a log target:
 
@@ -79,7 +90,7 @@ Also you can use slack as a log target:
         'traceLevel' => 3,
         'targets' => [
             [
-                'class' => 'understeam\slack\LogTarget',
+                'class' => 'walkboy\slack\LogTarget',
                 'categories' => ['commandBus'],
                 'exportInterval' => 1, // Send logs on every message
                 'logVars' => [],
