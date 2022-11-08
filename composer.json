@@ -2,7 +2,7 @@
   "name": "walkboy/yii2-slack",
   "description": "Yii2 slack client",
   "type": "extension",
-  "license": "GPL-v3",
+  "license": "GPL-3.0",
   "support": {
     "issues": "https://github.com/walkboy/yii2-slack/issues",
     "source": "https://github.com/walkboy/yii2-slack"
