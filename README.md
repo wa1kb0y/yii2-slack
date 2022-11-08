@@ -10,7 +10,7 @@ Based on unmaintained https://github.com/Understeam/yii2-slack
 ## Installation
 
 ```bash
-php composer require walkboy/yii2-slack:1.0
+composer require walkboy/yii2-slack:^1.0
 ```
 
 Also, you should configure [incoming webhook](https://api.slack.com/incoming-webhooks) inside your Slack team.
